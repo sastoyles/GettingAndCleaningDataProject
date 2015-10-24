@@ -72,3 +72,15 @@ names(data) <- c("subjectID", "activity", varNames_reduced)
 
 # 5. From the data set in step 4, create a second, independent tidy data set with the 
 # average of each variable for each activity and each subject
+## Convert data into a table
+dataTbl <- tbl_df(data)
+
+## Group dataTbl by activity and subjectID 
+groupedData <- group_by(dataTbl, activity, subjectID)
+
+## Create new tidy data set with average of each variable for each grouping
+means <- summarize_each(groupedData, c("mean", "sd"))
+
+## Write data set to new file
+setwd("~/Coursera/Getting and Cleaning Data/Project")
+write.table(means, "ActivitySubjectSummary.txt", row.names = FALSE)
